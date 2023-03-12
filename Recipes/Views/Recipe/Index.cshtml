@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Recipes.Models.RecipeInputModel>
+
+
+<h1>All recipes</h1>
+<hr>
+<form method="POST">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+        <div class="media col-md-3">
+
+            <div>
+                <img class="mr-3" src=@item.ImageURL width="100" />
+               
+            </div>
+            <div class="media-body">
+                <h5 class="mt-0">
+                    <a asp-action="ById" asp-route-id="@item.Id"> @item.Name </a>
+
+                </h5>
+                @item.CategoryName
+            </div>
+
+        </div>
+
+        }
+    </div>
+</form>
