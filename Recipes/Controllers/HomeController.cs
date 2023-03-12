@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Recipes.Data;
 using Recipes.Models;
+using Recipes.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +14,27 @@ namespace Recipes.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext db;
+        private readonly IRecipeService service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, IRecipeService service)
         {
             _logger = logger;
+            this.db = db;
+            this.service = service;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new IndexViewModel
+            {
+                CategoriesCount = this.db.Categories.Count(),
+                RecipesCount = this.db.Recipes.Count(),
+                IngredientsCount = this.db.Ingredients.Count(),
+                ImagesCount = this.db.Images.Count(),
+                RandomRecipes = this.service.GetRandom(10)
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

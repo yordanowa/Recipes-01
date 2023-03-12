@@ -9,5 +9,6 @@ namespace Recipes.Services
     public interface IRecipeService
     {
         public SingleRecipeViewModel GetById(int id);
+        public IEnumerable<IndexPageRecipeViewModel> GetRandom(int count);
     }
 }

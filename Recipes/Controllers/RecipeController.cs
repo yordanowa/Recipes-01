@@ -44,7 +44,7 @@ namespace Recipes.Controllers
             }).ToList();
             return View(model);
         }
-        public IActionResult ById(int id)
+        public IActionResult ById(int id) //Single recipe info
         {
             var recipeViewModel = this.recipeService.GetById(id);
             return this.View(recipeViewModel);
@@ -60,7 +60,7 @@ namespace Recipes.Controllers
             var model = new RecipeInputModel { Categories = categories };
             return this.View(model);
         }
-        [HttpPost]
+        [HttpPost]  // Add recipe in DB
         public async Task<IActionResult> Create(RecipeInputModel model)
         {
             var recipe = new Recipe
@@ -105,9 +105,6 @@ namespace Recipes.Controllers
             {
                 model.Image.CopyTo(fs);
             }
-
-            
-            
 
             recipe.Images.Add(dbImage);
             this.db.Recipes.Add(recipe);

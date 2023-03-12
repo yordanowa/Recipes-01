@@ -37,5 +37,18 @@ namespace Recipes.Services
 
             return recipe;
         }
+        public IEnumerable<IndexPageRecipeViewModel> GetRandom(int count)
+        {
+            var recipes = db.Recipes.OrderBy(x => Guid.NewGuid()).Take(count)
+                 .Select(x => new IndexPageRecipeViewModel
+                 {
+                     Id = x.Id,
+                     Name = x.Name,
+                     CategoryName = x.Category.Name,
+                     ImageURL = "/img/" + x.Images.FirstOrDefault().Id + "."
+                                + x.Images.FirstOrDefault().Extention
+                 }).ToList();
+            return recipes;
+        }
     }
 }
